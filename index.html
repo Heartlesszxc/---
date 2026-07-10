@@ -1,32 +1,29 @@
-<!DOCTYPE html>
+import base64
+
+html_content = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вейп Шоп | Интернет-витрина</title>
     <style>
-        /* Общие стили и сброс */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background-color: #121212;
             color: #ffffff;
             line-height: 1.6;
         }
-
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 0;
         }
-
-        /* Дисклеймер (18+) */
         .disclaimer {
             background-color: #1a1a1a;
             border-bottom: 2px solid #39FF14;
@@ -35,33 +32,27 @@
             font-size: 13px;
             color: #aaaaaa;
         }
-
-        /* Главный экран */
         .hero {
             text-align: center;
             padding: 60px 20px;
             background: linear-gradient(180deg, rgba(18,18,18,0.8) 0%, rgba(26,26,26,1) 100%);
             border-bottom: 1px solid #2a2a2a;
         }
-
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .hero h1 span {
             color: #39FF14;
         }
-
         .hero p {
             font-size: 1.1rem;
             color: #cccccc;
             max-width: 600px;
             margin: 0 auto 30px auto;
         }
-
         .btn {
             display: inline-block;
             background-color: #39FF14;
@@ -74,64 +65,164 @@
             text-transform: uppercase;
             font-size: 14px;
         }
-
         .btn:hover {
             background-color: #ffffff;
             box-shadow: 0 0 15px #39FF14;
         }
-
-        /* Разделы */
         .section-title {
             text-align: center;
             font-size: 2rem;
             margin-bottom: 40px;
             text-transform: uppercase;
         }
-
         .section-title span {
             color: #39FF14;
         }
-
-        /* Сетка категорий */
         .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            display: block;
             margin-bottom: 60px;
         }
-
-        .category-card {
+        .catalog-table {
+            width: 100%;
+            border-collapse: collapse;
             background-color: #1a1a1a;
-            border: 1px solid #2a2a2a;
             border-radius: 8px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
         }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            border-color: #39FF14;
+        .catalog-table th, .catalog-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a2a;
         }
-
-        .category-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
+        .catalog-table th {
+            background-color: #222222;
+            color: #39FF14;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        .catalog-table td h3 {
             color: #ffffff;
+            margin-bottom: 5px;
         }
-
-        .category-card p {
-            font-size: 0.9rem;
+        .catalog-table td p {
             color: #999999;
+            font-size: 14px;
         }
-
-        /* Преимущества */
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            display: block;
             margin-bottom: 60px;
         }
-
         .feature-item {
             background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #39FF14;
+            margin-bottom: 20px;
+        }
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #39FF14;
+        }
+        .feature-item p {
+            font-size: 0.95rem;
+            color: #cccccc;
+        }
+        .contacts {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+        .contacts p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .contacts .tg-btn {
+            background-color: #24A1DE;
+            color: #ffffff;
+            margin-top: 15px;
+        }
+        .contacts .tg-btn:hover {
+            background-color: #ffffff;
+            color: #24A1DE;
+            box-shadow: 0 0 15px #24A1DE;
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 1.6rem; }
+            .contacts { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">
+        Сайт содержит информацию, не предназначенную для лиц младше 18 лет. Дистанционная продажа и доставка не осуществляются. Продажа строго в магазине при предъявлении паспорта.
+    </div>
+    <header class="hero">
+        <div class="container">
+            <h1>Вейп-шоп <span>[НАЗВАНИЕ]</span></h1>
+            <p>Твой локальный спот с топовым ассортиментом. Всё от одноразок до сложных девайсов и свежих жидкостей в шаговой доступности.</p>
+            <a href="#catalog" class="btn">Смотреть витрину</a>
+        </div>
+    </header>
+    <main class="container">
+        <section id="catalog">
+            <h2 class="section-title">Наша <span>Витрина</span></h2>
+            <div class="catalog-grid">
+                <table class="catalog-table">
+                    <thead>
+                        <tr>
+                            <th>Категория товара</th>
+                            <th>Описание ассортимента</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><h3>Одноразки</h3></td>
+                            <td><p>Все популярные бренды, огромный выбор вкусов и честное количество затяжек.</p></td>
+                        </tr>
+                        <tr>
+                            <td><h3>Жидкости</h3></td>
+                            <td><p>Солевые и щелочные миксы, от бюджетных линеек до зарубежного премиума.</p></td>
+                        </tr>
+                        <tr>
+                            <td><h3>POD-системы</h3></td>
+                            <td><p>Стартовые наборы, современные поды и девайсы для продвинутых вейперов.</p></td>
+                        </tr>
+                        <tr>
+                            <td><h3>Расходники</h3></td>
+                            <td><p>Испарители, картриджи, баки, койлы и всё необходимое для твоего устройства.</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <h2 class="section-title">Почему <span>выбирают нас</span></h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Только оригинал</h4>
+                    <p>Тщательно проверяем каждую партию товара. Никакого палева и протекающих клонов.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Шарящие коины</h4>
+                    <p>Подберем устройство под твой бюджет, заправим, заменим испарик и всё доходчиво объясним.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Система лояльности</h4>
+                    <p>Копи баллы с каждой покупки и оплачивай ими до 50% стоимости жидкостей и расходников.</p>
+                </div>
+            </div>
+        </section>
+        <section class="contacts">
+            <h2 class="section-title">Ждем в <span>гости</span></h2>
+            <p><strong>Адрес:</strong> г. Иркутск, ул. [Вставить адрес]</p>
+            <p><strong>Время работы:</strong> Ежедневно с 10:00 до 22:00</p>
+            <p style="color: #999999; font-size: 0.9rem; margin-top: 20px;">Наличие конкретных вкусов и крепостей уточняйте в нашем Telegram:</p>
+            <a href="https://t.me/your_link" target="_blank" class="btn tg-btn">Наш Telegram-канал</a>
+        </section>
+    </main>
+</body>
+</html>"""
